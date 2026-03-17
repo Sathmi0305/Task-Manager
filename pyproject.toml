@@ -1,3 +1,7 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
 [project]
 name = "my-task-api"
 version = "0.1.0"
@@ -11,7 +15,7 @@ dependencies = [
     "pydantic>=2.0.0",
     "pydantic-settings>=2.0.0",
 ]
- 
+
 [project.optional-dependencies]
 dev = [
     "pytest>=8.0",
@@ -19,7 +23,11 @@ dev = [
     "httpx>=0.27",
     "ruff>=0.4.0",
 ]
-[tool.pytest.ini_options]
-asyncio_mode = 'auto'
-testpaths    = ['tests']
 
+[tool.setuptools.packages.find]
+include = ["app*"]
+exclude = ["migrations*", "tests*"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
