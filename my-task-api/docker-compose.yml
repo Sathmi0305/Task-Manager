@@ -1,0 +1,25 @@
+services:
+ 
+  # Your Python API
+  api:
+    build: .
+    ports:
+      - '8000:8000'      #  Mac:container
+    env_file: .env
+    depends_on:
+      - db               # wait for database to start first
+ 
+  #  PostgreSQL database
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER:     postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB:       tasks
+    ports:
+      - '5432:5432'
+    volumes:
+      - pg_data:/var/lib/postgresql/data    # data is saved even if container restarts
+ 
+volumes:
+  pg_data:
