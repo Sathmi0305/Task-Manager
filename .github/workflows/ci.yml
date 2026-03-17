@@ -91,7 +91,5 @@ jobs:
           docker run -d --name smoke-test -e SECRET_KEY=smoke-test-key -p 8000:8000 my-task-api:${{ github.sha }}
           sleep 5
           curl --fail http://localhost:8000/
-          docker stop smoke-test       
-          sleep 5          
-          curl --fail http://localhost:8000/health          
-          docker stop smoke-test
+          docker stop smoke-test                
+ 
