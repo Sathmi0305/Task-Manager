@@ -1,4 +1,5 @@
 import asyncio
+import os
 from logging.config import fileConfig
 
 from sqlalchemy import pool
@@ -7,14 +8,19 @@ from sqlalchemy.ext.asyncio import async_engine_from_config
 
 from alembic import context
 
-# TODO: Import your actual SQLAlchemy Base here
-# Example: from app.models.base import Base
-# target_metadata = Base.metadata
-target_metadata = None 
+# Import your actual SQLAlchemy Base here so Alembic knows about your tables
+from app.models.task_orm import Base
+target_metadata = Base.metadata
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.
 config = context.config
+
+# OVERRIDE: Check if DATABASE_URL is set in the environment (e.g., in GitHub Actions or Docker)
+# If it is, use it instead of the hardcoded URL in alembic.ini
+database_url = os.environ.get("DATABASE_URL")
+if database_url:
+    config.set_main_option("sqlalchemy.url", database_url)
 
 # Interpret the config file for Python logging.
 # This line sets up loggers basically.
